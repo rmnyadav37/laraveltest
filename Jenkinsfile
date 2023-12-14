@@ -10,6 +10,12 @@ label "agent1"
     }
 
     stages {
+        stage('Cloning') {
+      steps {
+          git branch: "${params.BRANCH}", changelog: false, poll: false, url: 'https://github.com/rmnyadav37/laraveltest.git'
+          echo "pulled the code"
+        }
+    }
         stage('copy') {
             steps {
                 sh "cp -r /home/jenkins/workspace/test_master/* /var/www/html"
