@@ -1,10 +1,12 @@
 pipeline {
-    agent any
+    agent {
+label "agent"
+}
 
     stages {
         stage('copy') {
             steps {
-                sh "cp -r /home/jenkins/ /var/www/html"
+                echo "this is stage 1"
             }
         }
 
