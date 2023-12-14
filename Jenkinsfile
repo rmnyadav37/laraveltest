@@ -6,7 +6,7 @@ label "agent1"
     stages {
         stage('copy') {
             steps {
-                echo "this is stage 1"
+                sh "cp -r /home/jenkins/workspace/test_master/* /var/www/html"
             }
         }
 
