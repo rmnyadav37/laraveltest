@@ -1,8 +1,4 @@
-pipeline {
-agent {
-        label "agent2"
-    }
-stages {
+node {
   stage('SCM') {
     checkout scm
   }
@@ -12,15 +8,4 @@ stages {
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
-  stage('copy') {
-            steps {
-                sh "cp -r /home/jenkins/workspace/firstproject/* /var/www/html"
-                echo 'Hello stage1'
-            }
 }
-}
-}
- 
-
-    
-       
