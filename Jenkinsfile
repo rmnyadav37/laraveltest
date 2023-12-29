@@ -3,6 +3,9 @@ node {
     labels "agent2"
   }
   stages{
+	stage('SCM') {
+    	checkout scm
+  }
     stage('SonarQube Analysis') {
       def scannerHome = tool 'sonarqubescanner-5.0.1';
       withSonarQubeEnv() {
