@@ -17,23 +17,12 @@ pipeline {
                 }
             }
         }
-        stage("SonarQube Gatekeeper") {
+        sstage("Quality gate") {
             steps {
-                script {
-                    def STAGE_NAME = "SonarQube Gatekeeper"
-                    def branchName = env.BRANCH_NAME
-
-                    if (branchName == "develop") {
-                        echo "In 'develop' branch, skip."
-                    } else { // this is a PR build, fail on threshold spill
-                        def qualitygate = waitForQualityGate()
-                        if (qualitygate.status != "OK") {
-                            error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-                        }
-                    }
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
-        }
 
         stage('Copy') {
             steps {
