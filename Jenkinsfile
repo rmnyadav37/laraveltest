@@ -12,7 +12,7 @@ stages {
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
- stage('copy') {
+  stage('copy') {
             steps {
                 sh "cp -r /home/jenkins/workspace/firstproject/* /var/www/html"
                 echo 'Hello stage1'
