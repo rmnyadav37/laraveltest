@@ -9,3 +9,14 @@ node {
     }
   }
 }
+pipeline {
+    agent {
+        label "agent1"
+    }
+
+    stages {
+        stage('copy') {
+            steps {
+                sh "cp -r /home/jenkins/workspace/firstproject/* /var/www/html"
+                echo 'Hello stage1'
+            }
