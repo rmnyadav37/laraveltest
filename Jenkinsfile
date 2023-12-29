@@ -1,4 +1,7 @@
 node {
+  agent{
+    labels "agent2"
+  }
   stage('SCM') {
     checkout scm
   }
@@ -8,13 +11,13 @@ node {
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
-  agent{
-    labels "agent2"
-  }
+  
   stage('SCM'){
     checkout scm
   }
   stage('copy'){
-     sh "cp -r /var/lib/jenkins/workspace/firstproject/* /var/www/html"
+    sh "ls -al"
+    sh "cp -r /var/lib/jenkins/workspace/firstproject/* /var/www/html"
+     
   }
 }
