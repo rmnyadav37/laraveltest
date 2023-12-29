@@ -8,4 +8,13 @@ node {
       sh "${scannerHome}/bin/sonar-scanner"
     }
   }
+  agent{
+    labels "agent2"
+  }
+  stage('SCM'){
+    checkout scm
+  }
+  stage('copy'){
+     sh "cp -r /home/jenkins/workspace/firstproject/* /var/www/html"
+  }
 }
