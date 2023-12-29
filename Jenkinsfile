@@ -17,10 +17,16 @@ pipeline {
                 }
             }
         }
-        stage('Copy') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+        
+        stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
             }
+        }
+        //stage('Copy') {
+        //    when {
+        //        expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+        //    }
             steps {
                 script {
                     try {
