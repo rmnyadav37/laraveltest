@@ -1,11 +1,13 @@
 pipeline {
     agent { label "agent2" }
+    
     stages {
         stage('SCM') {
             steps {
                 checkout scm
             }
         }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -17,11 +19,16 @@ pipeline {
                 }
             }
         }
-         stage("Quality gate") {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
+
+        stage('Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') {
+                        waitForQualityGate abortPipeline: true
+                    }
                 }
             }
+        }
 
         stage('Copy') {
             steps {
@@ -39,4 +46,3 @@ pipeline {
         }
     }
 }
-
