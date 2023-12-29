@@ -6,28 +6,25 @@ pipeline {
                 checkout scm
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'sonarqubescanner-5.0.1'
-                    withSonarQubeEnv() {
-                        // Run SonarQube analysis
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
+        
         }
-        stage("Quality gate") {
-            steps {
-                script {
-                    // Wait for the Quality Gate check
-                    def qg = waitForQualityGate()
-                    // Add some logging or checks based on the 'qg' variable if needed
-                    echo "Quality Gate status: ${qg.status}"
-                    echo "Quality Gate ID: ${qg.id}"
-                }
-            }
+        stage ("SonarQube Gatekeeper") {
+         steps {
+            script {
+               STAGE_NAME = "SonarQube Gatekeeper"
+
+               if (BRANCH_NAME == "develop") {
+                  echo "In 'develop' branch, skip."
+               }
+               else { // this is a PR build, fail on threshold spill
+                  def qualitygate = waitForQualityGate()
+                  if (qualitygate.status != "OK") {
+                     error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+              } 
+           }
         }
+     }
+  }
 
         stage('Copy') {
             steps {
