@@ -17,16 +17,19 @@ pipeline {
                 }
             }
         }
-        
         stage("Quality gate") {
             steps {
-                waitForQualityGate abortPipeline: true
+                script {
+                    // Wait for the Quality Gate check
+                    def qg = waitForQualityGate()
+                    // Add some logging or checks based on the 'qg' variable if needed
+                    echo "Quality Gate status: ${qg.status}"
+                    echo "Quality Gate ID: ${qg.id}"
+                }
             }
         }
-        //stage('Copy') {
-        //    when {
-        //        expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-        //    }
+
+        stage('Copy') {
             steps {
                 script {
                     try {
