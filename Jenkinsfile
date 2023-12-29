@@ -1,11 +1,7 @@
 pipeline {
     agent { label "agent2" }
     stages {
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
+        
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -20,7 +16,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "cp -r /home/jenkins/workspace/firstproject/* /var/www/html"
+                        sh "cp -r /home/jenkins-agent/workspace/firstproject/* /var/www/html/"
                         echo 'Hello stage1'
                     } catch (Exception e) {
                         echo "Error copying files: ${e.message}"
