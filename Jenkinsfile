@@ -6,13 +6,24 @@ pipeline {
                 checkout scm
             }
         }
-
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonarqubescanner-5.0.1'
+                    withSonarQubeEnv() {
+                        // Run SonarQube analysis
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage("SonarQube Gatekeeper") {
             steps {
                 script {
                     def STAGE_NAME = "SonarQube Gatekeeper"
+                    def branchName = env.BRANCH_NAME
 
-                    if (BRANCH_NAME == "develop") {
+                    if (branchName == "develop") {
                         echo "In 'develop' branch, skip."
                     } else { // this is a PR build, fail on threshold spill
                         def qualitygate = waitForQualityGate()
