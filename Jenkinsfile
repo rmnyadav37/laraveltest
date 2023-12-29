@@ -13,6 +13,7 @@ node {
     stage('deploy'){
       sh "ls -al"
       sh "cp -r /home/jenkins-agent/workspace/firstproject/* /var/www/html/"
+      sh "pwd"
      
   }
 }
