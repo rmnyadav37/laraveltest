@@ -15,6 +15,6 @@ node {
     checkout scm
   }
   stage('copy'){
-     sh "cp -r //var/lib/jenkins/workspace/firstproject/* /var/www/html"
+     sh "cp -r /var/lib/jenkins/workspace/firstproject/* /var/www/html"
   }
 }
