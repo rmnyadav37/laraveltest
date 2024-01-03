@@ -2,11 +2,7 @@ pipeline {
     agent { label "agent2" }
     
     stages {
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
+        
 
         stage('SonarQube Analysis') {
             steps {
